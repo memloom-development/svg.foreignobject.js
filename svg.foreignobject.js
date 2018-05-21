@@ -1,13 +1,18 @@
-SVG.ForiegnObject = function() {
-  this.constructor.call(this, SVG.create('foreignObject'))
-  
-  /* store type */
-  this.type = 'foreignObject'
-}
+SVG.ForeignObject = SVG.invent({
+  // Initialize node
+  create: 'foreignObject'
 
-SVG.ForiegnObject.prototype = new SVG.Shape
-
-SVG.extend(SVG.ForiegnObject, {
+  // Inherit from
+, inherit: SVG.Shape
+    
+  // Add parent method
+, construct: {
+    // Create a rect element
+    foreignObject: function(width, height) {
+      return this.put(new SVG.ForeignObject()).size(width, height)
+    }
+  }
+, extend: {
   appendChild: function (child, attrs) {
     var newChild = typeof(child)=='string' ? document.createElement(child) : child
     if (typeof(attrs)=='object'){
@@ -19,10 +24,5 @@ SVG.extend(SVG.ForiegnObject, {
   getChild: function (index) {
     return this.node.childNodes[index]
   }
-})
-
-SVG.extend(SVG.Container, {
-  foreignObject: function(width, height) {
-    return this.put(new SVG.ForiegnObject).size(width == null ? 100 : width, height == null ? 100 : height)
-  }
-})
+}
+});
